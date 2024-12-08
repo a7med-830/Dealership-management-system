@@ -21,8 +21,8 @@ class Cars:
         year = input("Enter year: ")
         form = input("Enter form: ")
         price = float(input("Enter price: "))
-
-        Cars(brand, model, year, form, price)
+        
+        Cars(brand, model, year, form, price, True)
 
     def get_info(self):
         print(f"Car name: {self.brand} {self.model}")
@@ -46,7 +46,7 @@ class Cars:
         if self.isAvailable:
             print(f"you have bought {self.brand} {self.model}")
             Cars.cars_num -= 1 
-            self.isAvailable == False
+            self.isAvailable = False
             Cars.available_cars.remove(self)
         else:
             print(f"{self.brand} {self.model} is not available for purchase")
@@ -58,7 +58,7 @@ class Cars:
         self.isAvailable == False
 
     @staticmethod
-    def Cars_number():
+    def cars_number():
         if Cars.cars_num == 1:
             print(f"We have 1 car available") #يا تفاصيلك يا روكستار :)
         else:
