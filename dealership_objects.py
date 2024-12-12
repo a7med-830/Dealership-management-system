@@ -1,3 +1,5 @@
+# dealership_objects.py
+from database import *
 class Vehicle:
     def __init__(self, brand, model, year, price, isAvailable):
         self.brand = brand 
@@ -25,15 +27,6 @@ class Vehicle:
         Cars.cars_num += 1
         self.isAvailable = False
 
-    @staticmethod
-    def display_available_vehicles(vehicle_list, vehicle_type="Vehicles"):
-        print(f"Available {vehicle_type}:")
-        if not vehicle_list:
-            print(f"No {vehicle_type.lower()} available.")
-            return
-        for vehicle in vehicle_list:
-            vehicle.get_info()
-
 class Cars(Vehicle):
 
     cars_num = 0
@@ -43,7 +36,7 @@ class Cars(Vehicle):
         super().__init__(brand, model, year, price , isAvailable)
         self.form = form
         Cars.cars_num += 1 
-        Cars.available_cars.append(self)
+        
         
     @staticmethod
     def add_car():
@@ -53,24 +46,39 @@ class Cars(Vehicle):
         form = input("Enter form: ")
         price = float(input("Enter price: "))
         
-        Cars(brand, model, year, form, price, True)
+        new_car = Cars(brand, model, year, form, price, True)
 
+        add_car_to_db(new_car)
+
+        print("Car added successfully to the database!")
+
+
+    # @staticmethod
+    # def display_available_cars():
+    #     print("Available Cars:")
+
+    #     if not Cars.available_cars:
+    #         print("No cars available.")
+
+    #     for car in Cars.available_cars:
+    #         car.get_info()
 
     @staticmethod
     def display_available_cars():
         print("Available Cars:")
 
-        if not Cars.available_cars:
-            print("No cars available.")
+        cars_from_db = fetch_all_cars()
+        if not cars_from_db:
+            print("No cars available in the database.")
+            return
 
-        for car in Cars.available_cars:
-            car.get_info()
-
+        for car in cars_from_db:
+            print(f"ID: {car[0]} | Brand: {car[1]} | Model: {car[2]} | Year: {car[3]} | Form: {car[4]} | Price: ${car[5]} | Available: {'Yes' if car[6]=='Yes' else 'No'}")
 
     @staticmethod
     def cars_number():
         if Cars.cars_num == 1:
-            print(f"We have 1 car available") #يا تفاصيلك يا روكستار :)
+            print(f"We have 1 car available") 
         else:
             print(f"We have {Cars.cars_num} cars available")
             
@@ -78,40 +86,53 @@ class Cars(Vehicle):
 class Bikes(Vehicle):
 
     bikes_num = 0
-    available_bikes = []
 
-    def __init__(self, brand, model, year, form, price, isAvailable):
+    def __init__(self, brand, model, year, price, isAvailable):
         super().__init__(brand, model, year, price , isAvailable)
-        self.form = form
         Bikes.bikes_num += 1 
-        Bikes.available_bikes.append(self)
+        
         
     @staticmethod
     def add_bike():
         brand = input("Enter brand: ")
         model = input("Enter model: ")
         year = input("Enter year: ")
-        form = input("Enter form: ")
         price = float(input("Enter price: "))
         
-        Bikes(brand, model, year, form, price, True)
+        new_bike = Bikes(brand, model, year, price, True)
 
+        add_bike_to_db(new_bike)
+
+        print("Bike added successfully to the database!")
+
+
+    # @staticmethod
+    # def display_available_bikes():
+    #     print("Available Bikes:")
+
+    #     if not Bikes.available_bikes:
+    #         print("No bikes available.")
+
+    #     for bike in Bikes.available_bikes:
+    #         bike.get_info()
 
     @staticmethod
     def display_available_bikes():
         print("Available Bikes:")
 
-        if not Bikes.available_bikes:
-            print("No bikes available.")
+        bikes_from_db = fetch_all_bikes()
+        if not bikes_from_db:
+            print("No bikes available in the database.")
+            return
 
-        for bike in Bikes.available_bikes:
-            bike.get_info()
+        for bike in bikes_from_db:
+            print(f"ID: {bike[0]} | Brand: {bike[1]} | Model: {bike[2]} | Year: {bike[3]} | Form: {bike[4]} | Price: ${bike[5]} | Available: {'Yes' if bike[6]=='Yes' else 'No'}")
 
     
     @staticmethod
     def bikes_number():
         if Bikes.bikes_num == 1:
-            print(f"We have 1 bike available") #يا تفاصيلك يا روكستار :)
+            print(f"We have 1 bike available") 
         else:
             print(f"We have {Bikes.bikes_num} bikes available")
 
