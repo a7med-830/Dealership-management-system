@@ -1,8 +1,6 @@
 # database.py
 import sqlite3
-# from dealership_management_system import *
-# from dealership_objects import *
-
+from datetime import datetime
 import sqlite3
 
 def connect_to_db():
@@ -34,6 +32,15 @@ def initialize_database():
                      )''')
     
     
+    cursor.execute('''CREATE TABLE IF NOT EXISTS Purchases (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        customer_name TEXT,
+                        customer_phone TEXT,
+                        vehicle_id INTEGER,
+                        vehicle_type TEXT,
+                        purchase_date TEXT,
+                    )''')
+
     conn.commit()
     conn.close()
 
@@ -102,3 +109,24 @@ def delete_bike_from_db(id_num):
         print(f"An error occurred while deleting the bike: {e}")
     finally:
         conn.close()
+
+def update_vehicle_availability(vehicle_type, vehicle_id, is_available):
+    conn = connect_to_db()
+    cursor = conn.cursor()
+
+    table_name = "Cars" if vehicle_type == "Car" else "Bikes"
+    cursor.execute(f"UPDATE {table_name} SET availability = ? WHERE id = ?", (is_available, vehicle_id))
+    
+    conn.commit()
+    conn.close()
+
+def add_purchase(customer_name, customer_phone, vehicle_id, vehicle_type):
+    conn = connect_to_db()
+    cursor = conn.cursor()
+
+    purchase_date = datetime.now().strftime('%Y-%m-%d %H:%M')
+    cursor.execute('INSERT INTO Purchases (customer_name, customer_phone, vehicle_id, vehicle_type, purchase_date) VALUES (?, ?, ?, ?, ?)',
+                   (customer_name, customer_phone, vehicle_id, vehicle_type, purchase_date))
+
+    conn.commit()
+    conn.close()

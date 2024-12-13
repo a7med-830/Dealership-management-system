@@ -17,7 +17,6 @@ def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def main():
-    customers = {}
     running = True  
     
     while running:
@@ -37,10 +36,13 @@ def main():
         
         elif choice == "2":
             clear_screen()
-            Cars.display_available_cars()
-            print("-" * 30)
-            Bikes.display_available_bikes()
-            print("-" * 30)
+            show_choice = input("View [1] Cars or [2] Bikes? : ").strip()
+            if show_choice == "1":
+                Cars.display_available_cars()
+            elif show_choice == "2":
+                Bikes.display_available_bikes()
+            else:
+                print("Invalid choice!")
             input("Press Enter to return to the menu.")
 
         elif choice == "3":
@@ -56,38 +58,32 @@ def main():
             
         elif choice == "4":
             clear_screen()
-            print("Buy a car")
-            name = input("Enter customer name: ")
-            phone = input("Enter customer phone number: ")
+            print("[1] Buy Car\n[2] Buy Bike")
+            buy_choice = input("Choose an option: ").strip()
 
-            if name not in customers:
-                customers[name] = Customer(name, phone)
-            
-            customer = customers[name]
-
-            print("[1] car \n[2] Bike")
-            vehicleChoice = input("What do you want to buy : ")
-            if vehicleChoice =="1":
+            if buy_choice in ["1", "2"]:
+                name = input("Enter your name: ").strip()
+                phone = input("Enter your phone number: ").strip()
+                customer = Customer(name, phone)
                 Cars.display_available_cars()
-            elif vehicleChoice =="2":
+                print("-" * 30)
                 Bikes.display_available_bikes()
-            
-            try:
-                car_index = int(input("Enter the number of the car to buy : ")) - 1
-                car_to_buy = Cars.available_cars[car_index]
-                customer.add_purchase(car_to_buy)
-                input("Press Enter to return to the menu.")
-            except (ValueError, IndexError):
-                print("Invalid car selection!")
-                input("Press Enter to return to the menu.")
+                print("-" * 30)
+                vehicle_type = "Car" if buy_choice == "1" else "Bike"
+                vehicle_id = int(input(f"Enter the ID of the {vehicle_type} you want to buy: ").strip())
+
+                customer.add_purchase(vehicle_id, vehicle_type)
+            else:
+                print("Invalid option!")
+            input("Press Enter to return to the menu.")
         
         elif choice == "5":
             clear_screen()
-            name = input("Enter customer name: ")
-            if name in customers:
-                customers[name].display_purchases()
-            else:
-                print("Customer not found!")
+            name = input("Enter your name: ").strip()
+            phone = input("Enter your phone number: ").strip()
+            
+            customer = Customer(name, phone)
+            customer.display_purchases()
             input("Press Enter to return to the menu.")
         
         elif choice == "q":
