@@ -1,5 +1,6 @@
 # dealership_objects.py
 from database import *
+from tabulate import tabulate
 class Vehicle:
     def __init__(self, brand, model, year, price, isAvailable):
         self.brand = brand 
@@ -52,17 +53,6 @@ class Cars(Vehicle):
 
         print("Car added successfully to the database!")
 
-
-    # @staticmethod
-    # def display_available_cars():
-    #     print("Available Cars:")
-
-    #     if not Cars.available_cars:
-    #         print("No cars available.")
-
-    #     for car in Cars.available_cars:
-    #         car.get_info()
-
     @staticmethod
     def display_available_cars():
         print("Available Cars:")
@@ -72,8 +62,10 @@ class Cars(Vehicle):
             print("No cars available in the database.")
             return
 
-        for car in cars_from_db:
-            print(f"ID: {car[0]} | Brand: {car[1]} | Model: {car[2]} | Year: {car[3]} | Form: {car[4]} | Price: ${car[5]} | Available: {'Yes' if car[6]=='Yes' else 'No'}")
+        print(tabulate(cars_from_db, headers=["ID", "Brand", "Model", "Year", "Form", "Price", "Available"]))
+
+        # for car in cars_from_db:
+        #     print(f"ID: {car[0]} | Brand: {car[1]} | Model: {car[2]} | Year: {car[3]} | Form: {car[4]} | Price: ${car[5]} | Available: {'Yes' if car[6]=='Yes' else 'No'}")
 
     @staticmethod
     def cars_number():
@@ -81,6 +73,14 @@ class Cars(Vehicle):
             print(f"We have 1 car available") 
         else:
             print(f"We have {Cars.cars_num} cars available")
+   
+    @staticmethod
+    def delete_car():
+        Cars.display_available_cars()
+        id_num = input("Enter ID of the car you want to delete : ")
+        delete_car_from_db(id_num)
+        input("Press Enter to return to the menu.")
+        
             
 
 class Bikes(Vehicle):
@@ -105,17 +105,6 @@ class Bikes(Vehicle):
 
         print("Bike added successfully to the database!")
 
-
-    # @staticmethod
-    # def display_available_bikes():
-    #     print("Available Bikes:")
-
-    #     if not Bikes.available_bikes:
-    #         print("No bikes available.")
-
-    #     for bike in Bikes.available_bikes:
-    #         bike.get_info()
-
     @staticmethod
     def display_available_bikes():
         print("Available Bikes:")
@@ -125,8 +114,10 @@ class Bikes(Vehicle):
             print("No bikes available in the database.")
             return
 
-        for bike in bikes_from_db:
-            print(f"ID: {bike[0]} | Brand: {bike[1]} | Model: {bike[2]} | Year: {bike[3]} | Form: {bike[4]} | Price: ${bike[5]} | Available: {'Yes' if bike[6]=='Yes' else 'No'}")
+        print(tabulate(bikes_from_db, headers=["ID", "Brand", "Model", "Year", "Form", "Price", "Available"]))
+
+        # for bike in bikes_from_db:
+        #     print(f"ID: {bike[0]} | Brand: {bike[1]} | Model: {bike[2]} | Year: {bike[3]} | Form: {bike[4]} | Price: ${bike[5]} | Available: {'Yes' if bike[6]=='Yes' else 'No'}")
 
     
     @staticmethod
@@ -136,6 +127,12 @@ class Bikes(Vehicle):
         else:
             print(f"We have {Bikes.bikes_num} bikes available")
 
+    @staticmethod
+    def delete_bike():
+        Bikes.display_available_bikes()
+        id_num = input("Enter ID of the bike you want to delete : ")
+        delete_bike_from_db(id_num)
+        input("Press Enter to return to the menu.")
 
 class Customer:
 
@@ -161,4 +158,4 @@ class Customer:
             print(f"{self.name} has not purchased any vehicles.")
 
 if __name__ == "__main__" :
-    print("please open dealership management system.py")
+    print("please open dealership_management_system.py")

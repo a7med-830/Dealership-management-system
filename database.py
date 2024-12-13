@@ -21,7 +21,7 @@ def initialize_database():
                         year TEXT,
                         form TEXT,
                         price REAL,
-                        is_available TEXT
+                        availability TEXT
                      )''')
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS Bikes (
@@ -30,8 +30,9 @@ def initialize_database():
                         model TEXT,
                         year TEXT,
                         price REAL,
-                        is_available TEXT
+                        availability TEXT
                      )''')
+    
     
     conn.commit()
     conn.close()
@@ -40,7 +41,7 @@ def add_car_to_db(car):
     conn = connect_to_db()
     cursor = conn.cursor()
 
-    cursor.execute('INSERT INTO Cars (brand, model, year, form, price, is_available) VALUES (?, ?, ?, ?, ?, ?)',
+    cursor.execute('INSERT INTO Cars (brand, model, year, form, price, availability) VALUES (?, ?, ?, ?, ?, ?)',
                    (car.brand, car.model, car.year, car.form, car.price, 'Yes' if car.isAvailable else 'No'))
 
     conn.commit()
@@ -55,6 +56,19 @@ def fetch_all_cars():
 
     conn.close()
     return cars
+
+def delete_car_from_db(id_num):
+    conn = connect_to_db()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute('DELETE FROM Cars WHERE id = ?', (id_num,))
+        conn.commit()
+        print(f"Car with ID {id_num} has been deleted.")
+    except sqlite3.Error as e:
+        print(f"An error occurred while deleting the car: {e}")
+    finally:
+        conn.close()
 
 def add_bike_to_db(bike):
     conn = connect_to_db()
@@ -76,3 +90,15 @@ def fetch_all_bikes():
     conn.close()
     return bikes
 
+def delete_bike_from_db(id_num):
+    conn = connect_to_db()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute('DELETE FROM Bikes WHERE id = ?', (id_num,))
+        conn.commit()
+        print(f"Bike with ID {id_num} has been deleted.")
+    except sqlite3.Error as e:
+        print(f"An error occurred while deleting the bike: {e}")
+    finally:
+        conn.close()
