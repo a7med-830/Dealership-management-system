@@ -38,7 +38,7 @@ def initialize_database():
                         customer_phone TEXT,
                         vehicle_id INTEGER,
                         vehicle_type TEXT,
-                        purchase_date TEXT,
+                        purchase_date TEXT
                     )''')
 
     conn.commit()
