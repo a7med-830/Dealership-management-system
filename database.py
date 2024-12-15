@@ -2,6 +2,7 @@
 import sqlite3
 from datetime import datetime
 import sqlite3
+import os 
 
 def connect_to_db():
     conn = sqlite3.connect('dealership.db')
@@ -130,3 +131,36 @@ def add_purchase(customer_name, customer_phone, vehicle_id, vehicle_type):
 
     conn.commit()
     conn.close()
+
+
+def drop_table():
+    conn = connect_to_db()
+    cursor = conn.cursor()
+
+    choice = input("[1] Cars\n[2] Bikes\n[3] Customers\nWhat do you want delete : ").strip()
+    
+    if choice == '1':
+        choice = 'Cars'
+    elif choice == '2':
+        choice = 'Bikes'
+    elif choice == '3':
+        choice = 'Purchases'
+    else:
+        print("invalid choice!")
+
+    
+
+    if input("Are you sure ?? [y/n] : ").strip().lower() == 'y':
+        cursor.execute(f'DROP TABLE {choice}')
+
+    print(f"Table {choice} Deleted successfully!")
+    conn.commit()
+    conn.close()
+
+def drop_db():
+    if input("Are you sure ?? [TYPE : yes] : ").strip().lower() == 'yes':
+        os.remove('dealership.db')
+    print("Data base dropped successfully!")
+
+if __name__ == "__main__" :
+    print("please open dealership_management_system.py")

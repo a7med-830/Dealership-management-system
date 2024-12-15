@@ -62,8 +62,11 @@ class Cars(Vehicle):
         model = input("Enter model: ")
         year = input("Enter year: ")
         form = input("Enter form: ")
-        price = float(input("Enter price: "))
-        
+        try:
+            price = float(input("Enter price: "))
+        except ValueError:
+            print("invalid input!")
+            
         new_car = Cars(brand, model, year, form, price, True)
 
         add_car_to_db(new_car)
