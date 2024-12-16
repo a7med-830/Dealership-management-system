@@ -29,9 +29,9 @@ class Vehicle:
         if not result:
             print(f"{vehicle_type} with ID {vehicle_id} does not exist.")
             return
-
+        
         is_available = result[0]
-        if not is_available:
+        if is_available == 'No':
             print(f"{vehicle_type} with ID {vehicle_id} is not available for purchase.")
             return
 

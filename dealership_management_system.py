@@ -20,7 +20,7 @@ def main_menu():
 
     if choice == "1": # display vehicles
         clear_screen()
-        show_choice = input("View [1] Cars or [2] Bikes? : ").strip()
+        show_choice = input("View [1] Cars🚗\n[2] Bikes🏍️? : ").strip()
         if show_choice == "1":
             Cars.display_available_cars()
         elif show_choice == "2":
@@ -32,18 +32,22 @@ def main_menu():
     
     elif choice == "2": # buy vehicle
         clear_screen()
-        print("[1] Buy Car\n[2] Buy Bike")
+        print("[1] Buy Car🚗\n[2] Buy Bike🏍️")
         buy_choice = input("Choose an option: ").strip()
 
         if buy_choice in ["1", "2"]:
             name = input("Enter your name: ").strip()
             phone = input("Enter your phone number: ").strip()
             customer = Customer(name, phone)
-            Cars.display_available_cars()
-            print("-" * 30)
-            Bikes.display_available_bikes()
-            print("-" * 30)
             vehicle_type = "Car" if buy_choice == "1" else "Bike"
+
+            if vehicle_type == "Car":
+                Cars.display_available_cars()
+            elif vehicle_type == "Bike":
+                Bikes.display_available_bikes() 
+            else:
+                print("How did you get here ????")
+
             vehicle_id = int(input(f"Enter the ID of the {vehicle_type} you want to buy: ").strip())
 
             customer.add_purchase(vehicle_id, vehicle_type)
@@ -106,17 +110,18 @@ def manger_menu():
 
         elif choice == "2": # add vehicle
             clear_screen()
-            addChoice = input("[1] Car \n[2] Bike \nWhat do you want to add : ")
+            addChoice = input("[1] Car🚗 \n[2] Bike🏍️ \nWhat do you want to add : ")
             if addChoice == "1":
                 Cars.add_car()
             elif addChoice == "2":
                 Bikes.add_bike()
-
+            else:
+                print("Invalid choice!")
             input("Press Enter to return to the menu.")
         
         elif choice == "3": # delete vehicle
             clear_screen()
-            delChoice = input("[1] Car\n[2] Bike\nWhat do you want to delete: ").strip()
+            delChoice = input("[1] Car🚗\n[2] Bike🏍️\nWhat do you want to delete: ").strip()
             if delChoice == "1":
                 Cars.delete_car()
             elif delChoice == "2":
